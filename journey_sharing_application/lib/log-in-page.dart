@@ -94,7 +94,10 @@ class LoginClass extends StatelessWidget {
                       child: MaterialButton(
                         minWidth: double.infinity,
                         height: 60,
-                        onPressed: () {},
+                        onPressed: () {
+                          print(email);
+                          print(password);
+                        },
                         color: Color(0xff0095FF),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
@@ -147,6 +150,10 @@ class LoginClass extends StatelessWidget {
   }
 }
 
+// VARIABLES FOR STORING THE TEXTFIELDS VALUES
+String email = '';
+String password = '';
+
 // THIS IS A WIDGET FOR THE TEXT FIELD
 Widget inputFile({label, obscureText = false})
 {
@@ -167,6 +174,14 @@ Widget inputFile({label, obscureText = false})
       ),
 
       TextField(
+        // GET VALUES FROM TEXTFIELDS
+        onChanged: (value) {
+          if (label == "Email") {
+            email = value;
+          } else if (label == "Password") {
+            password = value;
+          }
+        },
         obscureText: obscureText,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 0,

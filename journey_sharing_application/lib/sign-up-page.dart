@@ -65,14 +65,14 @@ class SignUpClass extends StatelessWidget {
                   inputFile(label: "Username"),
                   inputFile(label: "Email"),
                   inputFile(label: "Password", obscureText: true),
-                  inputFile(label: "Confirm Password ", obscureText: true),
+                  inputFile(label: "Confirm Password", obscureText: true),
                 ],
               ),
 
               Container(
                 padding: EdgeInsets.only(top: 3, left: 3),
 
-                // STYLE THE BORDER OF THEBUTTON
+                // STYLE THE BORDER OF THE BUTTON
                 decoration:
                 BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -88,7 +88,12 @@ class SignUpClass extends StatelessWidget {
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 60,
-                  onPressed: () {},
+                  onPressed: () {
+                    print(username);
+                    print(email);
+                    print(password);
+                    print(confirm);
+                  },
                   color: Color(0xff0095FF),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -128,6 +133,12 @@ class SignUpClass extends StatelessWidget {
   }
 }
 
+// VARIABLES FOR STORING THE TEXTFIELDS VALUES
+String username = '';
+String email = '';
+String password = '';
+String confirm = '';
+
 // THIS IS A WIDGET FOR THE TEXT FIELD
 Widget inputFile({label, obscureText = false})
 {
@@ -148,6 +159,18 @@ Widget inputFile({label, obscureText = false})
       ),
 
       TextField(
+        // GET VALUES FROM TEXTFIELDS
+        onChanged: (value) {
+          if (label == "Username") {
+            username = value;
+          } else if (label == "Email") {
+            email = value;
+          } else if (label == "Password") {
+            password = value;
+          } else if (label == "Confirm Password") {
+            confirm = value;
+          }
+        },
         obscureText: obscureText,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 0,
