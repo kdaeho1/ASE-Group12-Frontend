@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class LoginClass extends StatelessWidget {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +51,8 @@ class LoginClass extends StatelessWidget {
                     SizedBox(height: 20,),
 
                     // STYLE THE TEXT BELOW THE HEADING
-                    Text("Start and share your journey by logging into your account",
+                    Text("Start and share your journey by\nlogging into your account",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20,
                         color:Colors.grey[700]
@@ -64,8 +68,30 @@ class LoginClass extends StatelessWidget {
                   // THE INPUT FILED FOR EMAIL AND PASSWORD
                   child: Column(
                     children: <Widget>[
-                      inputFile(label: "Email"),
-                      inputFile(label: "Password", obscureText: true)
+                      Padding(
+                        padding: EdgeInsets.all(15),
+                        child: TextField(
+                          // obscureText: true,
+                          controller: emailController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Email',
+                            hintText: 'Enter Email',
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(15),
+                        child: TextField(
+                          obscureText: true,
+                          controller: passwordController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Password',
+                            hintText: 'Enter Password',
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -95,8 +121,8 @@ class LoginClass extends StatelessWidget {
                         minWidth: double.infinity,
                         height: 60,
                         onPressed: () {
-                          print(email);
-                          print(password);
+                          print(emailController.text);
+                          print(passwordController.text);
                         },
                         color: Color(0xff0095FF),
                         elevation: 0,
@@ -115,21 +141,6 @@ class LoginClass extends StatelessWidget {
                       ),
                   ),
                 ),
-
-                // MESSAGE FOR SIGNING IN IF USER DOESN'T HAVE AN ACCOUNT
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
-                    Text("New to Journey Sharing Application?"),
-                    Text(" Please create an account",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                      ),
-                    )
-                  ],
-                ),
-
                 // TCD LOGO IMAGE
                 Container(
                   padding: EdgeInsets.only(top: 100),
@@ -148,59 +159,6 @@ class LoginClass extends StatelessWidget {
       ),
     );
   }
-}
-
-// VARIABLES FOR STORING THE TEXTFIELDS VALUES
-String email = '';
-String password = '';
-
-// THIS IS A WIDGET FOR THE TEXT FIELD
-Widget inputFile({label, obscureText = false})
-{
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w400,
-          color:Colors.black87
-        ),
-      ),
-
-      const SizedBox(
-        height: 5,
-      ),
-
-      TextField(
-        // GET VALUES FROM TEXTFIELDS
-        onChanged: (value) {
-          if (label == "Email") {
-            email = value;
-          } else if (label == "Password") {
-            password = value;
-          }
-        },
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0,
-          horizontal: 10),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.blue.shade300
-            ),
-          ),
-
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue.shade300)
-          )
-        ),
-      ),
-
-      SizedBox(height: 10,)
-    ],
-  );
 }
 
 // DONEEEEEEEEEE

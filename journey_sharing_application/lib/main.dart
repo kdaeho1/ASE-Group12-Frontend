@@ -7,8 +7,8 @@ import 'package:journey_sharing_application/source-location-map.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    // home: WelcomeScreen(),
-    home: SourceMapWidget(),
+    home: WelcomeScreen(),
+    // home: SourceMapWidget(),
   ));
 }
 

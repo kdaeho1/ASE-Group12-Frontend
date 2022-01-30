@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class SignUpClass extends StatelessWidget {
+  // String? selectedValue;
+  final List<String> genderItems = [
+    'Male',
+    'Female',
+  ];
+
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  String dropdownValue = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +64,7 @@ class SignUpClass extends StatelessWidget {
 
                   // STYLE THE TEXT BELOW THE HEADING
                   Text("Create an account by filling the form below",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 20,
                         color:Colors.grey[700]
@@ -62,10 +76,104 @@ class SignUpClass extends StatelessWidget {
               // THE FORM - INPUT FIELDS
               Column(
                 children: <Widget>[
-                  inputFile(label: "Username"),
-                  inputFile(label: "Email"),
-                  inputFile(label: "Password", obscureText: true),
-                  inputFile(label: "Confirm Password", obscureText: true),
+                  Padding(
+                    padding: EdgeInsets.all(15),
+                    child: TextField(
+                      controller: usernameController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Username',
+                        hintText: 'Enter Your Username',
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(15),
+                    child: TextField(
+                      // obscureText: true,
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Email',
+                        hintText: 'Enter Email',
+                      ),
+                    ),
+                  ),
+                  DropdownButtonFormField2(
+                    decoration: InputDecoration(
+                      //Add isDense true and zero Padding.
+                      //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+                      isDense: true,
+                      contentPadding: EdgeInsets.zero,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      //Add more decoration as you want here
+                      //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                    ),
+                    isExpanded: true,
+                    hint: const Text(
+                      'Select Your Gender',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    icon: const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.black45,
+                    ),
+                    iconSize: 30,
+                    buttonHeight: 60,
+                    buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+                    dropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    items: genderItems
+                        .map((item) =>
+                        DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ))
+                        .toList(),
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Please select gender.';
+                      }
+                    },
+                    onChanged: (value) {
+                      //Do something when changing the item if you want.
+                      dropdownValue  = value.toString();
+                    },
+                    onSaved: (value) {
+                    },
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(15),
+                    child: TextField(
+                      obscureText: true,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                        hintText: 'Enter Password',
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(15),
+                    child: TextField(
+                      obscureText: true,
+                      controller: confirmPasswordController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Confirm Password',
+                        hintText: 'Enter Password Again',
+                      ),
+                    ),
+                  ),
                 ],
               ),
 
@@ -89,10 +197,12 @@ class SignUpClass extends StatelessWidget {
                   minWidth: double.infinity,
                   height: 60,
                   onPressed: () {
-                    print(username);
-                    print(email);
-                    print(password);
-                    print(confirm);
+                    print("***************");
+                    print(usernameController.text);
+                    print(emailController.text);
+                    print(dropdownValue);
+                    print(passwordController.text);
+                    print(confirmPasswordController.text);
                   },
                   color: Color(0xff0095FF),
                   elevation: 0,
@@ -111,20 +221,6 @@ class SignUpClass extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // MESSAGE FOR SIGNING IN IF USER DOESN'T HAVE AN ACCOUNT
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
-                  Text("Already a member?"),
-                  Text(" Please login to your account",
-                    style:TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18
-                    ),
-                  )
-                ],
-              )
             ],
           ),
         ),
@@ -133,63 +229,4 @@ class SignUpClass extends StatelessWidget {
   }
 }
 
-// VARIABLES FOR STORING THE TEXTFIELDS VALUES
-String username = '';
-String email = '';
-String password = '';
-String confirm = '';
-
-// THIS IS A WIDGET FOR THE TEXT FIELD
-Widget inputFile({label, obscureText = false})
-{
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w400,
-            color:Colors.black87
-        ),
-      ),
-
-      const SizedBox(
-        height: 5,
-      ),
-
-      TextField(
-        // GET VALUES FROM TEXTFIELDS
-        onChanged: (value) {
-          if (label == "Username") {
-            username = value;
-          } else if (label == "Email") {
-            email = value;
-          } else if (label == "Password") {
-            password = value;
-          } else if (label == "Confirm Password") {
-            confirm = value;
-          }
-        },
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0,
-              horizontal: 10),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Colors.blue.shade300
-            ),
-          ),
-
-          border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue.shade300)
-          )
-        ),
-      ),
-
-      SizedBox(height: 10,)
-    ],
-  );
-}
-
-// DONEEEEEE
+// DONEEEEEEEE
