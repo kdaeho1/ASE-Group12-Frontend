@@ -10,7 +10,7 @@ import 'package:geolocator/geolocator.dart';
 
 class DestinationMapWidget extends StatefulWidget{
   final LatLng sourceLoc;
-  const DestinationMapWidget({Key? key, required this.sourceLoc}) : super(key: key);
+  DestinationMapWidget({Key? key, required this.sourceLoc}) : super(key: key);
 
   @override
   State<DestinationMapWidget> createState() => DestinationMapWidgetState();
@@ -21,9 +21,12 @@ class DestinationMapWidgetState extends State<DestinationMapWidget> {
   late BitmapDescriptor pinLocationIcon;
   // static final LatLng initialPos = LatLng(37.42796133580664, -122.085749655962); // TODO: get from previous screen
   // late final LatLng initialPos;
-  static late final LatLng initialPos;
+  static late LatLng initialPos;
   late LatLng secondaryPos; //TODO: assign source for init
+  static int dropdownState = 1;
+  bool preferenceVisibility = false;
   Set<Marker> _markers = {};
+
 
   void getLocation() async {
     Position pos = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -82,6 +85,75 @@ class DestinationMapWidgetState extends State<DestinationMapWidget> {
               child: child,
             );
           },
+        ),
+        Align(
+            alignment: Alignment.topCenter,
+            child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: (MediaQuery.of(context).size.height)*0.11,
+                  // padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 40, bottom: 0),
+                  child: Card(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text("Where to?",
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontWeight: FontWeight.normal,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: (MediaQuery.of(context).size.height)*0.07,
+                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                  child: Card(
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      // crossAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 6,
+                          child: Text("preferences",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.normal,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                            flex: 1,
+                            child: IconButton(
+                              icon: Icon(Icons.arrow_drop_down),
+                              onPressed: (){
+                                setState(() {
+                                  preferenceVisibility = !preferenceVisibility;
+                                });
+                                print(preferenceVisibility);
+                              },
+                            )
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: preferenceVisibility,
+                  child: Container(
+                  height: 120,
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                  child: Card(),
+                ))
+              ],
+            )
         ),
         Align(
             alignment: Alignment.bottomRight,
