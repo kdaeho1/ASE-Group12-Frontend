@@ -2,13 +2,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:journey_sharing_application/log-in-page.dart';
 import 'package:journey_sharing_application/sign-up-page.dart';
-import 'package:journey_sharing_application/map-page.dart';
+import 'package:journey_sharing_application/source-location-map.dart';
 
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     // home: WelcomeScreen(),
-    home: MapScreenClass(),
+    home: SourceMapWidget(),
   ));
 }
 
