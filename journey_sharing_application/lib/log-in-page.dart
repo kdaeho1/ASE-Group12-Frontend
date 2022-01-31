@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 
 class LoginClass extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  FocusNode myFocusNode = FocusNode();
+
+  void getHttp() async {
+    var formData = FormData.fromMap({
+      // 'username': usernameController.text,
+      'email': emailController.text,
+      // 'gender':dropdownValue,
+      'password': passwordController.text,
+      // 'confirmpassword': confirmPasswordController.text,
+    });
+    // usernameController.text="";
+    // usernameController.text="";
+    Response response = await Dio().post('http://192.168.49.1:5000/login', data: formData);
+    print(response.data.toString());
+    myFocusNode.requestFocus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,6 +140,7 @@ class LoginClass extends StatelessWidget {
                         onPressed: () {
                           print(emailController.text);
                           print(passwordController.text);
+                          getHttp();
                         },
                         color: Color(0xff0095FF),
                         elevation: 0,

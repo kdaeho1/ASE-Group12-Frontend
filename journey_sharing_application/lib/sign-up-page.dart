@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:dio/dio.dart';
 
 class SignUpClass extends StatelessWidget {
   // String? selectedValue;
@@ -12,7 +13,23 @@ class SignUpClass extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  FocusNode myFocusNode = FocusNode();
   String dropdownValue = '';
+
+  void getHttp() async {
+    var formData = FormData.fromMap({
+      'username': usernameController.text,
+      'email': emailController.text,
+      // 'gender':dropdownValue,
+      'password': passwordController.text,
+      // 'confirmpassword': confirmPasswordController,
+    });
+    usernameController.text="";
+    usernameController.text="";
+    Response response = await Dio().post('http://192.168.49.1:5000/register', data: formData);
+    print(response.data.toString());
+    myFocusNode.requestFocus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +97,7 @@ class SignUpClass extends StatelessWidget {
                     padding: EdgeInsets.all(15),
                     child: TextField(
                       controller: usernameController,
+                      focusNode: myFocusNode,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Username',
@@ -203,6 +221,7 @@ class SignUpClass extends StatelessWidget {
                     print(dropdownValue);
                     print(passwordController.text);
                     print(confirmPasswordController.text);
+                    getHttp();
                   },
                   color: Color(0xff0095FF),
                   elevation: 0,
