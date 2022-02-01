@@ -1,23 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:journey_sharing_application/source-location-map.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginClass extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   FocusNode myFocusNode = FocusNode();
 
-  void getHttp() async {
+  void getHttp(BuildContext context) async {
     var formData = FormData.fromMap({
-      // 'username': usernameController.text,
-      'email': emailController.text,
-      // 'gender':dropdownValue,
+      'username': emailController.text, // THE KEY SHOULD BE CHANGED TO email AFTER BACKEND IS UPDATED
       'password': passwordController.text,
-      // 'confirmpassword': confirmPasswordController.text,
     });
-    // usernameController.text="";
-    // usernameController.text="";
-    Response response = await Dio().post('http://192.168.49.1:5000/login', data: formData);
+    emailController.text="";
+    passwordController.text="";
+    Response response = await Dio().post('http://172.17.64.1:5000/login', data: formData);
     print(response.data.toString());
+    if (response.data['status'] == 200) { // OR response.statusCode == 200
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> SourceMapWidget()));
+    } else if (response.data['status'] == 401) { // OR response.statusCode == 401
+      Fluttertoast.showToast(
+          msg: "The username or password you entered is incorrect",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    } else if (response.data['status'] == 400) { // OR response.statusCode == 400
+      Fluttertoast.showToast(
+          msg: "You must fill in all the fields",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
     myFocusNode.requestFocus();
   }
 
@@ -125,12 +147,6 @@ class LoginClass extends StatelessWidget {
                     decoration:
                       BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        border: const Border(
-                          bottom: BorderSide(color: Colors.black),
-                          top: BorderSide(color: Colors.black),
-                          left: BorderSide(color: Colors.black),
-                          right: BorderSide(color: Colors.black),
-                        )
                       ),
 
                       // STYLE THE BUTTON
@@ -140,7 +156,7 @@ class LoginClass extends StatelessWidget {
                         onPressed: () {
                           print(emailController.text);
                           print(passwordController.text);
-                          getHttp();
+                          getHttp(context);
                         },
                         color: Color(0xff0095FF),
                         elevation: 0,
@@ -179,4 +195,4 @@ class LoginClass extends StatelessWidget {
   }
 }
 
-// DONEEEEEEEEEE
+// DONEE
