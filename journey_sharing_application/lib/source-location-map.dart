@@ -79,11 +79,22 @@ class SourceMapWidgetState extends State<SourceMapWidget> {
         Align(
           alignment: Alignment.topCenter,
           child: Container(
-            padding: const EdgeInsets.all(10),
-            child: Text(
-              "Where From?"
-            )
-          ),
+            width: double.infinity,
+            height: (MediaQuery.of(context).size.height)*0.17,
+            // height: 120,
+            padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+            child: Card(
+              child: Align(
+                alignment: Alignment.center,
+                child: Text("Starting at?",
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.normal,
+                  fontSize: 20,
+                ),),
+              ),
+            ),
+          )
         ),
         Align(
             alignment: Alignment.bottomRight,
@@ -91,11 +102,11 @@ class SourceMapWidgetState extends State<SourceMapWidget> {
               padding: const EdgeInsets.all(10),
               child: FloatingActionButton(
                 onPressed: (){
-                  // print(initialPos);
-                  // print(secondaryPos);
-                  // Navigator.push(context,
-                  //   MaterialPageRoute(builder: DestinationMapWidget(sourceLoc: initialPos));
-                  // );
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context){
+                      return DestinationMapWidget(sourceLoc: secondaryPos);
+                    })
+                  );
                 },
                 child: Icon(Icons.navigate_next),
               ),
