@@ -30,7 +30,7 @@ class SourceMapWidgetState extends State<SourceMapWidget> {
 
   @override initState(){
     super.initState();
-    // getLocation();
+    getLocation();
     // setMarker();
   }
 

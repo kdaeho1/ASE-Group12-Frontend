@@ -24,9 +24,13 @@ class DestinationMapWidgetState extends State<DestinationMapWidget> {
   static late LatLng initialPos;
   late LatLng secondaryPos; //TODO: assign source for init
   static int dropdownState = 1;
+  String genderPreference = "everyone";
   bool preferenceVisibility = false;
   Set<Marker> _markers = {};
 
+  bool isGenderPreference(String gender) {
+    return genderPreference == gender;
+  }
 
   void getLocation() async {
     Position pos = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -147,10 +151,63 @@ class DestinationMapWidgetState extends State<DestinationMapWidget> {
                 Visibility(
                   visible: preferenceVisibility,
                   child: Container(
-                  height: 120,
+                  height: 180,
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                  child: Card(),
+                  child: Card(
+                    child: Column(
+                      children: [
+                        Row( //ROW for first option -- everyone
+                          children: [
+                            Checkbox(
+                                activeColor: Colors.blue,
+                                value: isGenderPreference("everyone"),
+                                onChanged: (newValue){
+                                  setState(() {
+                                    genderPreference = "everyone";
+                                  });
+                                }),
+                            Text(
+                              "Everyone",
+                              textAlign: TextAlign.left,
+                            )
+                          ],
+                        ),
+                        Row( //ROW for first option -- everyone
+                          children: [
+                            Checkbox(
+                                activeColor: Colors.blue,
+                                value: isGenderPreference("male"),
+                                onChanged: (newValue){
+                                  setState(() {
+                                    genderPreference = "male";
+                                  });
+                                }),
+                            Text(
+                              "Male",
+                              textAlign: TextAlign.left,
+                            )
+                          ],
+                        ),
+                        Row( //ROW for first option -- everyone
+                          children: [
+                            Checkbox(
+                                activeColor: Colors.blue,
+                                value: isGenderPreference("female"),
+                                onChanged: (newValue){
+                                  setState(() {
+                                    genderPreference = "female";
+                                  });
+                                }),
+                            Text(
+                              "Female",
+                              textAlign: TextAlign.left,
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ))
               ],
             )
@@ -163,6 +220,7 @@ class DestinationMapWidgetState extends State<DestinationMapWidget> {
                 onPressed: (){
                   print(initialPos);
                   print(secondaryPos);
+                  print(genderPreference);
                 },
                 child: Icon(Icons.navigate_next),
               ),
