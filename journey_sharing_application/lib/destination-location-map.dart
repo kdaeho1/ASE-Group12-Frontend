@@ -24,12 +24,20 @@ class DestinationMapWidgetState extends State<DestinationMapWidget> {
   static late LatLng initialPos;
   late LatLng secondaryPos; //TODO: assign source for init
   static int dropdownState = 1;
-  String genderPreference = "everyone";
+  static String genderPreference = "everyone";
   bool preferenceVisibility = false;
   Set<Marker> _markers = {};
 
-  bool isGenderPreference(String gender) {
+  static bool isGenderPreference(String gender) {
     return genderPreference == gender;
+  }
+
+  static setGenderPreference(String gender) {
+    if (gender == "male" || gender == "female" || gender == "everyone") {
+      genderPreference = gender;
+    } else {
+      genderPreference = "everyone";
+    }
   }
 
   void getLocation() async {
@@ -164,7 +172,7 @@ class DestinationMapWidgetState extends State<DestinationMapWidget> {
                                 value: isGenderPreference("everyone"),
                                 onChanged: (newValue){
                                   setState(() {
-                                    genderPreference = "everyone";
+                                    setGenderPreference("everyone");
                                   });
                                 }),
                             Text(
@@ -180,7 +188,7 @@ class DestinationMapWidgetState extends State<DestinationMapWidget> {
                                 value: isGenderPreference("male"),
                                 onChanged: (newValue){
                                   setState(() {
-                                    genderPreference = "male";
+                                    setGenderPreference("male");
                                   });
                                 }),
                             Text(
@@ -196,7 +204,7 @@ class DestinationMapWidgetState extends State<DestinationMapWidget> {
                                 value: isGenderPreference("female"),
                                 onChanged: (newValue){
                                   setState(() {
-                                    genderPreference = "female";
+                                    setGenderPreference("female");
                                   });
                                 }),
                             Text(
