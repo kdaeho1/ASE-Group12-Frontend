@@ -15,8 +15,8 @@ class SourceMapWidget extends StatefulWidget{
 class SourceMapWidgetState extends State<SourceMapWidget> {
   Completer<GoogleMapController> _controller = Completer();
   late BitmapDescriptor pinLocationIcon;
-  static final LatLng initialPos = LatLng(37.42796133580664, -122.085749655962);
-  static LatLng secondaryPos = LatLng(47.42796133580664, -122.085749655962);
+  static final LatLng initialPos = LatLng(53.34872, -6.254871);
+  static LatLng secondaryPos = LatLng(53.34872, -6.254871);
   Set<Marker> _markers = {};
 
   void getLocation() async {

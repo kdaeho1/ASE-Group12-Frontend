@@ -10,18 +10,18 @@ class LoginClass extends StatelessWidget {
 
   void getHttp(BuildContext context) async {
     var formData = FormData.fromMap({
-      'username': emailController.text, // THE KEY SHOULD BE CHANGED TO email AFTER BACKEND IS UPDATED
+      'email': emailController.text, // THE KEY SHOULD BE CHANGED TO email AFTER BACKEND IS UPDATED
       'password': passwordController.text,
     });
-    emailController.text="";
-    passwordController.text="";
-    Response response = await Dio().post('http://172.17.64.1:5000/login', data: formData);
+    // emailController.text="";
+    // passwordController.text="";
+    Response response = await Dio().post('http://172.26.176.1:5000/login', data: formData);
     print(response.data.toString());
     if (response.data['status'] == 200) { // OR response.statusCode == 200
       Navigator.push(context, MaterialPageRoute(builder: (context)=> SourceMapWidget()));
     } else if (response.data['status'] == 401) { // OR response.statusCode == 401
       Fluttertoast.showToast(
-          msg: "The username or password you entered is incorrect",
+          msg: response.data['message'],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
@@ -31,7 +31,7 @@ class LoginClass extends StatelessWidget {
       );
     } else if (response.data['status'] == 400) { // OR response.statusCode == 400
       Fluttertoast.showToast(
-          msg: "You must fill in all the fields",
+          msg: response.data['message'],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,

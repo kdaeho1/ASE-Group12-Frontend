@@ -23,22 +23,22 @@ class SignUpClass extends StatelessWidget {
     var formData = FormData.fromMap({
       'username': usernameController.text,
       'email': emailController.text,
-      // 'gender':dropdownValue,
+      'gender':dropdownValue,
       'password': passwordController.text,
-      // 'confirmpassword': confirmPasswordController.text,
+      'confirmpassword': confirmPasswordController.text,
     });
-    usernameController.text="";
-    emailController.text="";
-    dropdownValue="";
-    passwordController.text="";
-    confirmPasswordController.text="";
-    Response response = await Dio().post('http://172.17.64.1:5000/register', data: formData);
+    // usernameController.text="";
+    // emailController.text="";
+    // dropdownValue="";
+    // passwordController.text="";
+    // confirmPasswordController.text="";
+    Response response = await Dio().post('http://172.26.176.1:5000/register', data: formData);
     print(response.data.toString());
     if (response.data['status'] == 200) {
       Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginClass()));
     } else if (response.data['status'] == 409) { // OR response.statusCode == 409
       Fluttertoast.showToast(
-          msg: "User already exists",
+          msg: response.data['message'],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
@@ -48,7 +48,7 @@ class SignUpClass extends StatelessWidget {
       );
     } else if (response.data['status'] == 400) { // OR response.statusCode == 400
       Fluttertoast.showToast(
-          msg: "You must fill in all the fields",
+          msg: response.data['message'],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,

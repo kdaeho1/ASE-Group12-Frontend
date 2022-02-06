@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 // import 'package:http/http.dart';
+import 'package:journey_sharing_application/result-page.dart';
 
 
 class DestinationMapWidget extends StatefulWidget{
@@ -221,6 +222,12 @@ class DestinationMapWidgetState extends State<DestinationMapWidget> {
                   print(initialPos);
                   print(secondaryPos);
                   print(genderPreference);
+
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context){
+                        return MainPage(sourceLoc: initialPos, destinationLoc: secondaryPos);
+                      })
+                  );
                 },
                 child: Icon(Icons.navigate_next),
               ),
